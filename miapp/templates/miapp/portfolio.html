@@ -1,0 +1,701 @@
+{% extends 'miapp/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portfolio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
+
+    <style>
+        /* Estilos para la foto del portafolio */
+        .portfolio-photo {
+            width: 450px; /* Ajusta el tamaño según prefieras */
+            height: 450px; /* Ajusta el tamaño según prefieras */
+            border-radius: 50%; /* Redondear la imagen para que sea circular */
+            object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra suave */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto; /* Centrala horizontalmente */
+            display: block;
+        }
+    
+        .portfolio-photo:hover {
+            transform: scale(1.05); /* Un suave efecto de zoom al pasar el ratón */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta la sombra al pasar el ratón */
+        }
+    
+        /* Centrando la imagen dentro de la sección */
+        #sobre-mi .section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    
+     
+        /* Estilos para la contenedora de progreso */
+        .progress-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+    
+        /* Estilos para el texto del porcentaje */
+        .progress-percentage {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: #000; /* Cambia el color si es necesario */
+        }
+    
+        /* Estilos para las tarjetas de los repositorios */
+        .repo-card {
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .repo-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    
+        .repo-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+        }
+    
+        .repo-description {
+            font-size: 1rem;
+            color: #555;
+        }
+    
+        .repo-link {
+            text-decoration: none;
+            color: #3273dc;
+            font-weight: bold;
+        }
+    
+        .repo-link:hover {
+            text-decoration: underline;
+            color: #275bbe;
+        }
+    
+        .card-content .icon {
+            color: #ffd700; /* Color dorado para la medalla */
+            margin-bottom: 10px;
+        }
+    
+        /* Asegúrate de que el contenido sea legible sobre la imagen de fondo */
+        .background-image-container h1,
+        .background-image-container p {
+            color: white; /* Cambia este color según tu imagen de fondo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para mejorar la legibilidad */
+        }
+    
+        /* Imagen de fondo en modo claro para la sección "Sobre mí" */
+        body.light-mode #mifoto {
+            background-image: url('/static/miapp/25.jpg'); /* Ruta de tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+    
+        body.dark-mode #mifoto {
+            background-image: url('/static/miapp/noche.jpg'); /* Ruta de tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            
+        }
+    
+        /* Estilo para las secciones */
+        .section {
+            height: 100vh; /* Cada sección ocupa toda la altura de la pantalla */
+            padding-top: 65px; /* Ajusta según la altura de tu navbar */
+            margin-bottom: 0; /* Elimina el margen inferior para evitar que se solapen */
+        }
+    
+        /* Para pantallas más pequeñas (por ejemplo, móviles) */
+        @media (max-width: 768px) {
+            .section {
+                height: auto; /* Ajusta la altura de las secciones para pantallas pequeñas */
+                padding-top: 60px; /* Ajusta la altura del padding para la navbar en pantallas pequeñas */
+                margin-bottom: 20px; /* Espacio entre las secciones */
+            }
+        }
+    
+        /* Contenedor principal del Swiper */
+        .swiper-container {
+            width: 95%;
+            max-width: 1600px;
+            height: 90vh;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+    
+        /* Contenedor interno de las tarjetas */
+        .swiper-wrapper {
+            display: flex;
+            gap: 30px;
+            padding: 30px;
+        }
+    
+        /* Tarjetas de proyectos */
+
+        .swiper-slide img {
+            max-width: auto; /* Para que la imagen no se desborde */
+            max-height: auto; /* Ajusta la altura de la imagen */
+        }
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            max-width: 400px; /* Para que la imagen no se desborde */
+            max-height: 400px;
+         } /*
+
+
+        }
+    
+        /* Efecto hover */
+        .swiper-slide:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            padding: 10px; /* Espacio interno */
+            text-align: center;
+            border-radius: 8px; /* Bordes redondeados */
+            
+        }
+    
+        /* Estilo del título */
+        .repo-title {
+            font-weight: bold;
+            font-size: 22px;
+            color: #007bff;
+        }
+    
+        /* Estilo de la descripción */
+        .repo-description {
+            font-size: 16px;
+            color: #333;
+        }
+    
+        /* Estilo para los botones del carrusel */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    
+        .dark-mode .swiper-button-next,
+        .dark-mode .swiper-button-prev {
+            color: #4dabf7;
+        }
+    
+        /* Botón "Ver Repositorio" */
+        .repo-link {
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 2px solid #007bff;
+            background: transparent;
+            color: #007bff;
+            transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+    
+        .repo-link:hover {
+            background: #007bff;
+            color: white;
+        }
+    
+        /* Modo Oscuro */
+        .dark-mode {
+            background: #000;
+            color: white;
+        }
+    
+        .dark-mode .repo-description {
+            color: white;
+        }
+    
+        .dark-mode .repo-title {
+            color: rgb(195, 191, 191);
+        }
+    
+        .dark-mode .swiper-slide {
+            background: rgba(30, 30, 30, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px; /* Espacio interno */
+            text-align: center;
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0px 4px 6px rgba(78, 255, 2, 0.1); /* Sombra ligera */
+           
+        }
+    
+        .dark-mode .repo-link {
+            border-color: #4dabf7;
+            color: rgb(255, 255, 255);
+        }
+    
+        .dark-mode .repo-link:hover {
+            background: #4dabf7;
+            color: #000;
+        }
+    
+        /* Modo Claro */
+        .light-mode .swiper {
+            background: #fff;
+        }
+    
+        .light-mode .repo-title,
+        .light-mode .repo-description {
+            color: black;
+        }
+    
+        .light-mode .swiper-slide {
+            background: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px; /* Espacio interno */
+            text-align: center;
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.1); /* Sombra ligera */
+           
+        }
+    
+        /* Estilo base de la navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
+    
+        /* Estilo cuando haces scroll */
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        
+
+        .light-mode #mifoto img {
+            border: 3px solid rgba(77, 247, 219, 0.2); /* Borde negro en modo claro */
+            padding: 5px;
+        }
+        
+        .dark-mode #mifoto img {
+            border: 3px solid  rgb(20, 50, 15); /* Borde blanco en modo oscuro */
+            padding: 5px;
+        }
+        
+
+
+
+
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Mensaje de éxito -->
+    {% if mensaje_exito %}
+        <div class="notification is-success mt-4 has-text-centered" id="mensajeExito">
+            Mensaje enviado con éxito.
+        </div>
+    {% endif %}
+
+    <section id="mifoto" class="section background-image-container">
+        <div class="section">
+            <a href="#sobre-mi">
+                <img src="/static/miapp/mifoto.jpg" alt="Tu Nombre" class="portfolio-photo">
+            </a>
+            <h1 id="typing-effect" class="title has-text-centered" style="margin-top: 15px;"></h1>
+        </div>
+    </section>
+
+    <!-- Sección "Sobre mí" -->
+    <section id="sobre-mi" class="section">
+        <div class="container has-text-centered">
+            <h1 class="title">Sobre mí</h1>
+            <p>Hola, soy Juan Ignacio, un apasionado de la tecnología estudiante de la Universidad Nacional de la Matanza.</p>
+            <button onclick="window.print()" class="button is-primary mt-4">🖨 Imprimir CV</button>
+        </div>
+    </section>
+
+    
+    
+ <!-- Sección "Habilidades" -->
+ <section id="habilidades" class="section" style="margin-top: 150px;">
+    <div class="container">
+        <h1 class="title has-text-centered">Habilidades</h1>
+        <div class="columns is-multiline">
+            {% for habilidad in habilidades %}
+                <div class="column is-half">
+                    <p class="has-text-centered">{{ habilidad.nombre }}</p>
+                    <div class="progress-container has-text-centered">
+                        <progress class="progress
+                            {% if habilidad.nivel >= 90 %}
+                                is-success
+                            {% elif habilidad.nivel >= 80 %}
+                                is-primary
+                            {% elif habilidad.nivel >= 70 %}
+                                is-info
+                            {% elif habilidad.nivel >= 60 %}
+                                is-warning
+                            {% elif habilidad.nivel >= 50 %}
+                                is-link
+                            {% else %}
+                                is-danger
+                            {% endif %}
+                        " value="{{ habilidad.nivel }}" max="100"></progress>
+                        <span class="progress-percentage">{{ habilidad.nivel }}%</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Sección "Mis Proyectos" -->
+<section id="proyectos" class="section" style="margin-bottom: 100px;">
+    <div class="container">
+        <h1 class="title has-text-centered">Mis Proyectos</h1>
+        <p style="text-align: center;">Aquí podrás encontrar mis proyectos académicos y personales.</p>
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for proyecto in proyectos %}
+                    <div class="swiper-slide">
+                        <div class="slide-content" style="display: flex; flex-direction: column; height: 100%;">
+                            <div class="slide-image" style="flex: 1; overflow: hidden;">
+                                {% if proyecto.imagen %}
+                                    <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.nombre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% endif %}
+                            </div>
+                            <div class="slide-text" style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <p class="title" style="margin-bottom: 10px; text-align: center;">{{ proyecto.nombre }}</p>
+                                <p class="subtitle" style="margin-bottom: 20px; text-align: center;">{{ proyecto.tecnologias }}</p>
+                                <a class="button is-link" href="{{ proyecto.enlace }}" target="_blank">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Controles de navegación -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="github" class="section">
+    <div class="container">
+        
+        <div class="swiper">
+            <h1 class="title has-text-centered">Mis Repositorios</h1>
+            <p style="text-align: center;">Aqui podras encontrar los proyectos academicos y personales que creé.</p>
+            <div class="swiper-wrapper" id="repos"></div>
+            <div class="swiper-pagination"></div>
+            
+        </div>
+        <div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+    
+</section>
+
+
+<!-- Sección "Certificaciones" -->
+<section id="certificaciones" class="section">
+    <div class="container">
+        <h1 class="title has-text-centered">Certificaciones</h1>
+        <div class="columns is-multiline">
+            {% for cert in certificaciones %}
+                <div class="column is-one-third">
+                    <div class="card">
+                        <div class="card-content has-text-centered">
+                            <span class="icon is-large">
+                                <i class="fas fa-medal fa-2x"></i>
+                            </span>
+                            <p class="title is-4">{{ cert.nombre }}</p>
+                            <p class="subtitle is-6">{{ cert.plataforma }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Sección "Testimonios" -->
+<section id="testimonios" class="section">
+    <div class="container">
+        <h1 class="title has-text-centered">Testimonios</h1>
+        <div class="columns is-multiline">
+            {% for testimonio in testimonios %}
+                <div class="column is-half">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="subtitle">"{{ testimonio.mensaje }}"</p>
+                            <p><strong>- {{ testimonio.nombre }}, {{ testimonio.empresa }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Botón para abrir el formulario de testimonio -->
+        <button id="abrirTestimonio" class="button is-primary">Dejar Testimonio</button>
+
+        <!-- Formulario para agregar testimonio -->
+        <div id="formularioTestimonio" style="display: {% if mostrar_formulario %}block{% else %}none{% endif %}; ">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Nombre</label>
+                    <div class="control">
+                        <input class="input" type="text" name="nombre" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Empresa</label>
+                    <div class="control">
+                        <input class="input" type="text" name="empresa" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Testimonio</label>
+                    <div class="control">
+                        <textarea class="textarea" name="mensaje" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-primary" type="submit" name="agregar_testimonio">Enviar Testimonio</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" id="cancelarTestimonio" class="button is-light">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+ 
+    <!-- Formulario de Contacto -->
+    <section id="contacto" class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Contacto</h1>
+            <form method="post" class="box">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Nombre</label>
+                    <div class="control">
+                        {{ form.nombre }}
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control">
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Mensaje</label>
+                    <div class="control">
+                        {{ form.mensaje }}
+                    </div>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+    <!-- Botón de Scroll -->
+    <button id="scrollTopBtn" class="button is-primary" style="display: none; position: fixed; bottom: 20px; right: 20px;">⬆</button>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch("https://api.github.com/users/jiruiz/repos")
+            .then(response => response.json())
+            .then(data => {
+                const reposContainer = document.getElementById('repos');
+                reposContainer.innerHTML = '';
+    
+                data.forEach(repo => {
+                    reposContainer.innerHTML += `
+                        <div class="swiper-slide repo-slide">
+                            <p class="repo-title">${repo.name}</p>
+                            <p class="repo-description">${repo.description || 'No description available'}</p>
+                            <a href="${repo.html_url}" target="_blank" class="repo-link">Ver Repositorio</a>
+                        </div>
+                    `;
+                });
+    
+                const swiper = new Swiper('.swiper', {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                    loop: true, 
+                    autoplay: {
+                        delay: 3000, 
+                        disableOnInteraction: false 
+                    },
+                    pagination: { 
+                        el: ".swiper-pagination", 
+                        clickable: true 
+                    },
+                    navigation: { 
+                        nextEl: ".swiper-button-next", 
+                        prevEl: ".swiper-button-prev" 
+                    },
+                    breakpoints: {
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 50
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 40
+                        },
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20
+                        },
+                        320: {
+                            slidesPerView: 1,
+                            spaceBetween: 10 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
+                        }
+                        
+                    }
+                });
+                
+                // Pausar y reanudar al pasar el mouse sobre un repositorio
+                document.querySelectorAll('.repo-slide').forEach(slide => {
+                    slide.addEventListener('mouseenter', () => swiper.autoplay.stop());
+                    slide.addEventListener('mouseleave', () => swiper.autoplay.start());
+                });
+    
+            })
+            .catch(error => console.error('Error cargando repos:', error));
+    });
+</script>
+<!-- Configuración de Swiper -->
+
+<script>
+    // Inicializar el swiper
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        loop: true, 
+        autoplay: {
+            delay: 3000, 
+            disableOnInteraction: false 
+        },
+        pagination: { 
+            el: ".swiper-pagination", 
+            clickable: true 
+        },
+        navigation: { 
+            nextEl: ".swiper-button-next", 
+            prevEl: ".swiper-button-prev" 
+        },
+        breakpoints: {
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 50
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 40
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
+            }
+            
+        }
+    });
+    
+</script>
+<!-- Script para abrir el formulario con distancia ajustada -->
+<script>
+    document.getElementById('abrirTestimonio').addEventListener('click', function() {
+        // Mostrar el formulario de testimonio
+        var formulario = document.getElementById('formularioTestimonio');
+        formulario.style.display = 'block';
+
+        // Ajustar el margen inferior de la sección de testimonios
+        var testimoniosSection = document.getElementById('testimonios');
+        var distancia = 100;  // Distancia que quieres agregar
+        testimoniosSection.style.marginBottom = distancia + 'px';
+    });
+
+    document.getElementById('cancelarTestimonio').addEventListener('click', function() {
+        // Ocultar el formulario y resetear el margen
+        var formulario = document.getElementById('formularioTestimonio');
+        formulario.style.display = 'none';
+
+        var testimoniosSection = document.getElementById('testimonios');
+        testimoniosSection.style.marginBottom = '0px';  // Restablecer la distancia
+    });
+</script>
+</html>
+
+{% endblock content %}

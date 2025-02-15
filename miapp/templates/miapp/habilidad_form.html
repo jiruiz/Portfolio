@@ -1,0 +1,30 @@
+{% extends 'miapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Agregar Nueva Habilidad</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label class="label">Nombre</label>
+            <div class="control">
+                {{ form.nombre }}
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Descripción</label>
+            <div class="control">
+                {{ form.descripcion }}
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Nivel</label>
+            <div class="control">
+                {{ form.nivel }} <!-- Este es el campo del rango -->
+            </div>
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary">Guardar</button>
+        </div>
+    </form>
+{% endblock %}

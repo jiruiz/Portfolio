@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="{% static 'miapp/juani.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+    .dark-mode {
+        background-color: #121212;
+        color: #ffffff;
+    }
+    .light-mode {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    .transition {
+        transition: all 0.3s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .section {
+        animation: fadeIn 1s ease-in-out;
+        
+    }
+
+    /* Estilos para los títulos y textos */
+    .dark-mode h1, .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode h6 {
+        color: #ffffff;
+    }
+    .light-mode h1, .light-mode h2, .light-mode h3, .light-mode h4, .light-mode h5, .light-mode h6 {
+        color: #000000;
+    }
+
+    /* Estilos para la barra de navegación */
+    .dark-mode .navbar {
+        background-color: #333;
+    }
+    .light-mode .navbar {
+        background-color: #fff;
+    }
+
+    .dark-mode .navbar-item {
+        color: #ffffff;
+    }
+    .light-mode .navbar-item {
+        color: #000000;
+    }
+
+    /* Estilos para los botones */
+    .dark-mode .button {
+        background-color: #444;
+        color: #fff;
+        border: 1px solid #666;
+    }
+    .light-mode .button {
+        background-color: #e6e6e6;
+        color: #000;
+        border: 1px solid #ccc;
+    }
+
+    .dark-mode .button:hover {
+        background-color: #555;
+    }
+    .light-mode .button:hover {
+        background-color: #ccc;
+    }
+
+    /* Estilos para los enlaces */
+    .dark-mode a {
+        color: #9f9f9f;
+    }
+    .light-mode a {
+        color: #000000;
+    }
+    .dark-mode a:hover {
+        color: #ffcc00;
+    }
+    .light-mode a:hover {
+        color: #0056b3;
+    }
+
+    .light-mode footer {
+        background-image: url('/static/miapp/25.jpg'); /* Ruta de tu imagen */
+        background-size: 100% auto;
+        background-attachment: fixed;
+        background-position: center bottom; /* Muestra la parte inferior de la imagen */
+        background-repeat: no-repeat;
+        min-height: 200px;
+    }
+    
+    .dark-mode footer {
+        background-image: url('/static/miapp/noche.jpg'); /* Ruta de tu imagen */
+        background-size: 100% auto;
+        background-attachment: fixed;
+        background-position: center bottom; /* Muestra la parte inferior de la imagen */
+        background-repeat: no-repeat;
+        min-height: 200px;
+    }
+    
+    
+    .project-card {
+        display: flex;
+        flex-direction: column;
+        height: 400px; /* Altura fija para la tarjeta */
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        height: 100%; /* Asegura que la tarjeta ocupe toda la altura disponible del contenedor */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-image {
+        height: 200px; /* Altura fija para la imagen */
+        overflow: hidden;
+    }
+
+    .card-image img {
+        width: 100%; /* La imagen ocupa todo el ancho */
+        height: 100%; /* La imagen ocupa toda la altura del contenedor */
+        object-fit: cover; /* Asegura que la imagen mantenga su relación de aspecto */
+    }
+
+    .card-content {
+        flex-grow: 1; /* Hace que el contenido ocupe el espacio restante */
+        padding: 1rem;
+    }
+
+    #mode-toggle {
+        border: none;
+        font-size: 1.2rem;
+        padding: 0.5rem 0.8rem;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #mode-toggle:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+        /* Formulario de contacto en modo oscuro */
+        .dark-mode .box {
+            background-color: #2c2c2c; /* Fondo oscuro para la caja */
+            color: #ffffff; /* Texto blanco */
+            border: 1px solid #444; /* Borde gris oscuro */
+        }
+
+        .dark-mode .box .label {
+            color: #ffffff; /* Títulos de los campos en blanco */
+        }
+
+        .dark-mode .box .input, 
+        .dark-mode .box .textarea {
+            background-color: #444; /* Fondo oscuro para campos */
+            color: #ffffff; /* Texto blanco en los campos */
+            border: 1px solid #666; /* Borde gris */
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .dark-mode .box .input:focus, 
+        .dark-mode .box .textarea:focus {
+            border-color: #999; /* Cambio de borde cuando se enfoca el campo */
+            outline: none;
+        }
+
+        .dark-mode .box .button {
+            background-color: #555; /* Fondo oscuro para el botón */
+            color: #fff; /* Texto blanco en el botón */
+            border: 1px solid #666; /* Borde gris */
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .dark-mode .box .button:hover {
+            background-color: #666; /* Efecto hover en el botón */
+            transform: scale(1.05);
+        }
+
+        /* Estilos para los títulos y cards de proyectos en modo oscuro */
+        .dark-mode .project-card {
+            background-color: #333; /* Fondo oscuro para las cards */
+            color: #fff; /* Texto blanco */
+        }
+
+        .dark-mode .project-card .card-title {
+            color: #ffffff; /* Títulos de las cards en blanco */
+        }
+
+        .dark-mode .project-card .card-image img {
+            filter: brightness(0.6); /* Ajuste en la imagen para que se vea bien en modo oscuro */
+        }
+
+        .dark-mode .project-card .card-content {
+            background-color: #444; /* Fondo oscuro para el contenido */
+            color: #fff; /* Texto blanco */
+        }
+
+        /* Estilos generales para el modo oscuro */
+        .dark-mode {
+            background-color: #121212; /* Fondo general oscuro */
+            color: #ffffff; /* Texto blanco */
+        }
+        
+
+        .dark-mode h2.subtitle {
+            color: #ffffff; /* Títulos de secciones en blanco */
+        }
+        /* Colores para la sección "Proyectos" en modo oscuro */
+        .dark-mode #proyectos {
+            color: #ffffff; /* Texto blanco */
+        }
+
+        .dark-mode .title {
+            color: #ffffff; /* Título en blanco */
+        }
+
+        .dark-mode .project-card {
+            background-color: #1e1e1e; /* Fondo oscuro para las cards */
+            color: #ffffff; /* Texto en blanco dentro de las cards */
+        }
+
+        .dark-mode .card-content {
+            background-color: #2c2c2c; /* Fondo ligeramente más claro para el contenido de la card */
+        }
+
+        .dark-mode .card-content .title {
+            color: #ffffff; /* Título del proyecto en blanco */
+        }
+
+        .dark-mode .card-content .subtitle {
+            color: #bbb; /* Subtítulo (tecnologías) en gris claro */
+        }
+
+        .dark-mode .card-content .button {
+            background-color: #555; /* Fondo oscuro para el botón */
+            color: #ffffff; /* Texto blanco en el botón */
+            border: 1px solid #666; /* Borde gris para el botón */
+        }
+
+        .dark-mode .card-content .button:hover {
+            background-color: #666; /* Fondo del botón al hacer hover */
+        }
+        /* Colores para la sección "Testimonios" en modo oscuro */
+        .dark-mode #testimonios {
+            color: #ffffff; /* Texto blanco */
+        }
+
+        .dark-mode .title {
+            color: #ffffff; /* Título en blanco */
+        }
+
+        .dark-mode .card {
+            background-color: #1e1e1e; /* Fondo oscuro para las cards */
+            color: #ffffff; /* Texto en blanco dentro de las cards */
+            border: 1px solid #333; /* Borde gris oscuro */
+        }
+
+        .dark-mode .card-content {
+            background-color: #2c2c2c; /* Fondo ligeramente más claro para el contenido de la card */
+        }
+
+        .dark-mode .card-content .subtitle {
+            color: #bbb; /* Subtítulo (testimonio) en gris claro */
+        }
+
+        .dark-mode .card-content  strong {
+            color: #ffffff; /* Nombre de la persona en blanco */
+        }
+        /* Estilo para cambiar el color de las letras del navbar a blanco en modo oscuro */
+        body.dark-mode .navbar-item {
+            color: white !important; /* Cambia el color de los textos a blanco */
+        }
+
+        body.dark-mode .navbar {
+            background-color: #333 !important; /* Cambia el fondo del navbar a un color oscuro */
+        }
+
+        body.dark-mode .navbar-item:hover {
+            color: #ffcc00 !important; /* Cambia el color al pasar el ratón (por ejemplo, a un color dorado) */
+        }
+        /* Dropdown en modo oscuro */
+        body.dark-mode .navbar-dropdown {
+            background-color: #444 !important; /* Fondo oscuro para el dropdown */
+            color: white !important; /* Texto blanco en el dropdown */
+        }
+
+        body.dark-mode .navbar-dropdown .navbar-item {
+            color: white !important; /* Asegura que los items dentro del dropdown sean blancos */
+        }
+
+        body.dark-mode .navbar-dropdown .navbar-item:hover {
+            background-color: #555 !important; /* Fondo gris oscuro al pasar el ratón */
+            color: #ffcc00 !important; /* Color dorado al pasar el ratón (opcional) */
+        }
+        #typing-effect {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        /* Estilos generales del navbar */
+        .navbar {
+            background-color: #ffffff; /* Color claro por defecto */
+            color: #000000; /* Texto oscuro por defecto */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Modo oscuro */
+        @media (prefers-color-scheme: dark) {
+            .navbar  {
+                background-color: #1a1a1a; /* Fondo oscuro */
+                color: #ffffff; /* Texto claro */
+            }
+
+            .navbar a {
+                color:rgb(0, 0, 0); /* Links en modo oscuro */
+            }
+            #dropdown {
+                color:rgb(0, 0, 0); /* Links en modo oscuro */
+            }
+        }
+
+        .navbar {
+            background-color: #ffffff; /* Fondo claro por defecto */
+            color: #000000;
+        }
+        
+        .dark-mode .navbar {
+            background-color: #1a1a1a; /* Fondo oscuro */
+            color: #ffffff;
+        }
+        
+        .dark-mode .navbar a {
+            color: #ffffff;
+        }
+        
+        /* Estilo para el navbar-menu en modo oscuro cuando está activo */
+        body.dark-mode .navbar-menu.is-active {
+            background-color: #444; /* Fondo gris oscuro */
+            color: white; /* Texto blanco */
+        }
+        body.dark-mode .navbar-dropdown .navbar-item:hover {
+            background-color: #555 !important; /* Fondo gris oscuro al pasar el ratón */
+            color: #ffcc00 !important; /* Color dorado al pasar el ratón (opcional) */
+        }
+        
+        /* Dropdown en modo responsivo */
+        @media (max-width: 768px) {
+            .navbar-dropdown {
+                display: none; /* Ocultar dropdown por defecto */
+            }
+            
+            .navbar-item.has-dropdown.is-active .navbar-dropdown {
+                display: block; /* Mostrar dropdown cuando está activo */
+            }
+            
+            .navbar-item.has-dropdown .navbar-dropdown .navbar-item {
+                color: inherit; /* Heredar color de texto */
+            }
+
+            
+        }
+        
+        
+        /* Cambiar color de "Más" a negro cuando el dropdown está activo en modo oscuro */
+        body.dark-mode .navbar-item.has-dropdown:hover .navbar-link {
+            color: #ffcc00 !important; /* Cambia el color a negro al pasar el ratón */
+        }
+        
+        .dark-mode .progress-percentage{
+            color:rgb(0, 0, 0);
+        }
+        .light-mode .progress-percentage {
+            color:rgb(255, 255, 255);
+        }
+        /* 🎭 Contenedor principal del Swiper: ocupa casi toda la pantalla */
+        .light-mode .footer p {
+            color:rgb(255, 255, 255);
+        }
+        .light-mode .footer a {
+            color:rgb(255, 255, 255);
+        }
+        /* 🎭 Contenedor principal del Swiper: ocupa casi toda la pantalla */
+
+        .light-mode .formularioTestimonio {
+            background-color:rgb(250, 250, 250);
+        }
+        .dark-mode .formularioTestimonio {
+            background-color:rgb(9, 9, 9);
+        }
+        
+        
+        
+</style>
+
+</head>
+<body class="light-mode transition">
+
+
+
+    <!-- Navbar -->
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'portfolio' %}">Juani Ruiz</a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarBasic" class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="#sobre-mi">Sobre mí</a>
+                <a class="navbar-item" href="#habilidades">Habilidades</a>
+                <a class="navbar-item" href="#proyectos">Proyectos</a>
+                <a class="navbar-item" href="#github">Repositorios</a>
+                
+                <a class="navbar-item" href="#contacto">Contacto</a>
+                
+                
+                
+                <!-- Dropdown -->
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Más
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="#certificaciones">Certificaciones</a>
+                        <a class="navbar-item" href="#testimonios">Testimonios</a>
+                    </div>
+                </div>
+                <div class="navbar-item">
+                    <button id="mode-toggle" class="button is-light is-rounded">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+    {% block content %}
+
+
+      {% endblock %}
+
+
+
+
+
+
+
+
+      <!-- Footer -->
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>&copy; 2025 Mi Portfolio. Todos los derechos reservados.</p>
+                <div class="social-icons">
+                    <a href="https://github.com/jiruiz" target="_blank" class="icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/juan-ignacio-ruiz" target="_blank" class="icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+
+
+
+
+
+
+        
+
+        <script>
+            const toggleButton = document.getElementById('mode-toggle');
+            const body = document.body;
+            const icon = toggleButton.querySelector("i");
+
+            // Cargar modo guardado en localStorage
+            if (localStorage.getItem('mode') === 'dark') {
+                body.classList.add('dark-mode');
+                body.classList.remove('light-mode');
+                icon.classList.replace("fa-sun", "fa-moon");
+            } else {
+                body.classList.add('light-mode');
+                body.classList.remove('dark-mode');
+                icon.classList.replace("fa-moon", "fa-sun");
+            }
+
+            // Alternar modo
+            toggleButton.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                body.classList.toggle('light-mode');
+
+                if (body.classList.contains('dark-mode')) {
+                    icon.classList.replace("fa-sun", "fa-moon");
+                    localStorage.setItem('mode', 'dark');
+                } else {
+                    icon.classList.replace("fa-moon", "fa-sun");
+                    localStorage.setItem('mode', 'light');
+                }
+            });
+
+        </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const menu = document.querySelector('.navbar-menu');
+            const dropdown = document.querySelector('.navbar-item.has-dropdown');
+            const links = document.querySelectorAll('.navbar-item a');
+            const dropdownMenu = document.querySelector('.navbar-dropdown');
+            
+            const closeMenus = () => {
+                burger.classList.remove('is-active');
+                menu.classList.remove('is-active');
+                dropdown.classList.remove('is-active');
+                dropdownMenu.classList.remove('is-active');
+            };
+        
+            // Abrir y cerrar el burger menu
+            if (burger && menu) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu.classList.toggle('is-active');
+                });
+            }
+        
+            // Manejo del dropdown
+            if (dropdown) {
+                dropdown.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('is-active');
+                });
+        
+                // Cerrar dropdown cuando el mouse salga del dropdown (solo en pantallas grandes)
+                dropdownMenu.addEventListener('mouseleave', () => {
+                    if (window.innerWidth >= 1024) {
+                        dropdown.classList.remove('is-active');
+                    }
+                });
+        
+                dropdown.addEventListener('mouseleave', () => {
+                    if (window.innerWidth >= 1024) {
+                        dropdown.classList.remove('is-active');
+                    }
+                });
+            }
+        
+            // Cerrar el menú y el dropdown al hacer clic en un enlace
+            links.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    // Cerrar menús si no es un enlace dentro de un dropdown
+                    if (!link.closest('.has-dropdown')) {
+                        closeMenus();
+                    } else if (window.innerWidth < 1024) {
+                        // Cerrar dropdown solo en pantallas pequeñas
+                        dropdown.classList.remove('is-active');
+                    }
+                });
+            });
+        
+            // Cerrar menú y dropdown al hacer clic fuera del navbar
+            document.addEventListener('click', (event) => {
+                // Verificar si el clic está fuera del menú, burger o dropdown
+                if (!menu.contains(event.target) && !burger.contains(event.target) && !dropdown.contains(event.target)) {
+                    closeMenus();
+                }
+            });
+        
+            // Prevenir que el click en el botón del modo oscuro o claro cierre el menú
+            const modeToggle = document.querySelector('#mode-toggle');
+            if (modeToggle) {
+                modeToggle.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Impide que el click cierre el menú
+                });
+            }
+        });
+        
+        
+        
+        
+        
+    </script>
+    
+
+       
+
+        <script>
+            document.getElementById("contactForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                document.getElementById("successMsg").style.display = "block";
+            });
+        </script>
+        <script>
+            const scrollTopBtn = document.getElementById("scrollTopBtn");
+            window.onscroll = function () {
+                scrollTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
+            };
+            scrollTopBtn.onclick = function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            };
+        </script>
+
+
+
+
+
+        <script>
+            const text = "¡Hola! Bienvenido a mi sitio web personal.";
+            let index = 0;
+            let isDeleting = false;
+        
+            function typeEffect() {
+                const element = document.getElementById("typing-effect");
+        
+                if (!isDeleting) {
+                    if (index < text.length) {
+                        element.innerHTML += text.charAt(index);
+                        index++;
+                        setTimeout(typeEffect, 100);
+                    } else {
+                        isDeleting = true;
+                        setTimeout(typeEffect, 3000); // Espera 3 segundos antes de borrar
+                    }
+                } else {
+                    if (index > 0) {
+                        element.innerHTML = text.substring(0, index - 1);
+                        index--;
+                        setTimeout(typeEffect, 50);
+                    } else {
+                        isDeleting = false;
+                        setTimeout(typeEffect, 500); // Espera un poco antes de volver a escribir
+                    }
+                }
+            }
+        
+            document.addEventListener("DOMContentLoaded", typeEffect);
+        </script>
+        
+
+
+
+
+
+
+
+        <script>
+            // Verifica si el mensaje de éxito está presente en la página
+            {% if mensaje_exito %}
+                // Si el mensaje de éxito está presente, se ejecuta el siguiente código
+                setTimeout(function() {
+                    // Espera 60 segundos (60000 milisegundos) y oculta el mensaje
+                    var mensaje = document.getElementById('mensajeExito');
+                    if (mensaje) {
+                        mensaje.style.display = 'none';
+                    }
+                }, 60000);
+            {% endif %}
+        </script>
+
+
+
+
+
+        <script>
+            let lastScrollTop = 0;
+            const navbar = document.querySelector(".navbar");
+
+            window.addEventListener("scroll", function () {
+                let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop) {
+                    // Oculta la navbar cuando el usuario baja
+                    navbar.style.top = "-70px"; /* Ajusta la altura según tu navbar */
+                } else {
+                    // Muestra la navbar cuando el usuario sube
+                    navbar.style.top = "0";
+                }
+
+                lastScrollTop = scrollTop;
+            });
+
+        </script>
+        <!-- Font Awesome for social icons and mode toggle -->
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    </body>
+
+
+    
+
+
+    </html>
