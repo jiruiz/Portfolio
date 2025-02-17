@@ -115,7 +115,21 @@
             background-repeat: no-repeat;
             min-height: 100vh;
         }
-    
+        body.light-mode #sobre-mi {
+            background-image: url('/static/miapp/sobremi.jpg'); /* Ruta de tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        body.light-mode #habilidades {
+            background-image: url('/static/miapp/habilidades.jpg'); /* Ruta de tu imagen */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
         body.dark-mode #mifoto {
             background-image: url('/static/miapp/noche.jpg'); /* Ruta de tu imagen */
             background-size: cover;
@@ -125,14 +139,40 @@
             min-height: 100vh;
             
         }
-    
+        body.light-mode #proyectos {
+            background-image: url('/static/miapp/proyectos.jpg'); /* Ruta de tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            
+        }
+
+
+        body.light-mode #sobre-mi,
+        body.light-mode #habilidades,
+        body.dark-mode #mifoto {
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
         /* Estilo para las secciones */
         .section {
             height: 100vh; /* Cada sección ocupa toda la altura de la pantalla */
             padding-top: 65px; /* Ajusta según la altura de tu navbar */
             margin-bottom: 0; /* Elimina el margen inferior para evitar que se solapen */
+            transition: opacity 0.8s ease-in-out;
         }
-    
+        section.active {
+            opacity: 1;
+        }
+          
         /* Para pantallas más pequeñas (por ejemplo, móviles) */
         @media (max-width: 768px) {
             .section {
@@ -362,7 +402,7 @@
     
     
  <!-- Sección "Habilidades" -->
- <section id="habilidades" class="section" style="margin-top: 150px;">
+ <section id="habilidades" class="section">
     <div class="container">
         <h1 class="title has-text-centered">Habilidades</h1>
         <div class="columns is-multiline">
@@ -396,7 +436,8 @@
 
 
 <!-- Sección "Mis Proyectos" -->
-<section id="proyectos" class="section" style="margin-bottom: 100px;">
+<section id="proyectos" class="section">
+    
     <div class="container">
         <h1 class="title has-text-centered">Mis Proyectos</h1>
         <p style="text-align: center;">Aquí podrás encontrar mis proyectos académicos y personales.</p>
@@ -695,7 +736,40 @@
         var testimoniosSection = document.getElementById('testimonios');
         testimoniosSection.style.marginBottom = '0px';  // Restablecer la distancia
     });
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const secciones = document.querySelectorAll("section");
+        let currentIndex = 0;
+        let isScrolling = false;
+        const scrollTimeout = 800; // Evita scrolls rápidos seguidos
+    
+        function scrollToSection(index) {
+            if (index >= 0 && index < secciones.length) {
+                isScrolling = true;
+                secciones[index].scrollIntoView({ behavior: "smooth", block: "center" });
+                currentIndex = index;
+                setTimeout(() => { isScrolling = false; }, scrollTimeout);
+            }
+        }
+    
+        document.addEventListener("wheel", (event) => {
+            if (!isScrolling) {
+                if (event.deltaY > 0 && currentIndex < secciones.length - 1) {
+                    scrollToSection(currentIndex + 1); // Scroll abajo
+                } else if (event.deltaY < 0 && currentIndex > 0) {
+                    scrollToSection(currentIndex - 1); // Scroll arriba
+                }
+            }
+            event.preventDefault();
+        });
+    });
+    
+    
 </script>
+
 </html>
 
 {% endblock content %}
