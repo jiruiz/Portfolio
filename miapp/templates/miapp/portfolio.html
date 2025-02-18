@@ -115,14 +115,7 @@
             background-repeat: no-repeat;
             min-height: 100vh;
         }
-        body.light-mode #sobre-mi {
-            background-image: url('/static/miapp/sobremi.jpg'); /* Ruta de tu imagen */
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-        }
+        
        
         
         body.dark-mode #mifoto {
@@ -387,13 +380,24 @@
     </section>
 
     <!-- Sección "Sobre mí" -->
-    <section id="sobre-mi" class="section" style="padding-top: 100px;">
-        <div class="container has-text-centered">
+    <section id="sobre-mi" class="section">
+        <div class="container has-text-centered" style="padding-top: 100px;">
             <h1 class="title">Sobre mí</h1>
-            <p>Hola, soy Juan Ignacio, un apasionado de la tecnología estudiante de la Universidad Nacional de la Matanza.</p>
-            <button onclick="window.print()" class="button is-primary mt-4">🖨 Imprimir CV</button>
+            <p>Hola, soy Juan Ignacio, un apasionado por la tecnología y el desarrollo de software.  
+            Desde siempre me ha interesado cómo la tecnología puede mejorar la vida de las personas,  
+            y es por eso que disfruto creando soluciones prácticas e innovadoras.  
+            Me considero una persona curiosa, con ganas de aprender y mejorar constantemente.  
+            Disfruto trabajar en equipo, compartir conocimientos y afrontar nuevos desafíos  
+            que me ayuden a crecer tanto profesional como personalmente.</p>
         </div>
+        <div class="container has-text-centered" style="padding-top: 100px;">
+            <button onclick="window.print()" class="button is-primary mt-4">🖨 Imprimir CV</button>
+
+        </div>
+
     </section>
+    
+    
 
     
     
@@ -642,6 +646,7 @@
                     slidesPerView: 3,
                     spaceBetween: 30,
                     loop: true, 
+                    centeredSlides: true, // Agrega esta línea
                     autoplay: {
                         delay: 3000, 
                         disableOnInteraction: false 
@@ -669,7 +674,7 @@
                         },
                         320: {
                             slidesPerView: 1,
-                            spaceBetween: 10 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
+                            spaceBetween: 120 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
                         }
                         
                     }
@@ -693,6 +698,7 @@
         slidesPerView: 3,
         spaceBetween: 30,
         loop: true, 
+        centeredSlides: true, // Agrega esta línea
         autoplay: {
             delay: 3000, 
             disableOnInteraction: false 
@@ -720,7 +726,7 @@
             },
             320: {
                 slidesPerView: 1,
-                spaceBetween: 10 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
+                spaceBetween: 100 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
             }
             
         }

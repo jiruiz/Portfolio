@@ -304,7 +304,10 @@
             color: #ffcc00 !important; /* Color dorado al pasar el ratón (opcional) */
         }
         #typing-effect {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Lucida Console', Monaco, monospace;
+            color: #00ff00; /* Color verde de estilo terminal */
+            padding: 10px;
+            border-radius: 5px;
         }
         /* Estilos generales del navbar */
         .navbar {
@@ -510,9 +513,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const burger = document.querySelector('.navbar-burger');
             const menu = document.querySelector('.navbar-menu');
-            const dropdown = document.querySelector('.navbar-item.has-dropdown');
-            const dropdownMenu = document.querySelector('.navbar-dropdown');
-            const links = document.querySelectorAll('.navbar-item a');
+            const dropdowns = document.querySelectorAll('.navbar-item.has-dropdown');
+            const links = document.querySelectorAll('.navbar-menu .navbar-item a');
         
             // Función para cerrar el navbar
             const closeNavbar = () => {
@@ -520,59 +522,40 @@
                 menu.classList.remove('is-active');
             };
         
-            // Función para cerrar el dropdown
-            const closeDropdown = () => {
-                dropdown.classList.remove('is-active');
-            };
-        
-            // Toggle del menú hamburguesa (navbar)
+            // Toggle del menú hamburguesa
             if (burger && menu) {
-                burger.addEventListener('click', (event) => {
-                    event.stopPropagation();
+                burger.addEventListener('click', () => {
                     menu.classList.toggle('is-active');
                     burger.classList.toggle('is-active');
                 });
             }
         
-            // Toggle del dropdown
-            if (dropdown) {
-                dropdown.addEventListener('click', (event) => {
-                    event.stopPropagation(); // Evita que el evento se propague al body
-                    dropdown.classList.toggle('is-active'); // Abre o cierra el dropdown
-                });
-            }
-        
-                // Cerrar el navbar cuando se haga clic en cualquier enlace dentro de él, excepto en los enlaces dentro del dropdown
+            // Cerrar el navbar cuando se haga clic en cualquier enlace dentro de él (excepto en los dropdowns)
             links.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    // Verificar si el enlace no está dentro del dropdown
-                    if (!link.closest('.has-dropdown')) {
-                        closeNavbar(); // Cierra el navbar si se hace clic en un enlace fuera del dropdown
+                    if (!link.closest('.has-dropdown')) { // Evita cerrar si el enlace está en un dropdown
+                        closeNavbar();
                     }
                 });
             });
-            
-            // Cerrar dropdown y navbar al hacer clic fuera de ellos
-            document.addEventListener('click', (event) => {
-                // Verificar si el clic es fuera del navbar (burger y menu)
-                if (!menu.contains(event.target) && !burger.contains(event.target)) {
-                    closeNavbar(); // Cierra el navbar si se hace clic fuera de él
-                }
         
-                // Verificar si el clic es fuera del dropdown
-                if (!dropdown.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    closeDropdown(); // Cierra el dropdown si se hace clic fuera de él
-                }
+            // Habilitar el toggle independiente para cada dropdown
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Evita que se propague y cierre el navbar
+                    dropdown.classList.toggle('is-active');
+                });
             });
         
-            // Evitar que el clic en el botón de modo oscuro cierre el menú
-            const modeToggle = document.querySelector('#mode-toggle');
-            if (modeToggle) {
-                modeToggle.addEventListener('click', (event) => {
-                    event.stopPropagation(); // Impide que el clic cierre el menú
-                });
-            }
+            // Cerrar el navbar cuando se haga clic fuera
+            document.addEventListener('click', (event) => {
+                if (!menu.contains(event.target) && !burger.contains(event.target)) {
+                    closeNavbar();
+                }
+            });
         });
+        
+        
         
         
         
@@ -605,7 +588,7 @@
 
 
         <script>
-            const text = "¡Hola! Bienvenido a mi sitio web personal.";
+            const text = "Bienvenido a mi sitio web personal.";
             let index = 0;
             let isDeleting = false;
         
@@ -653,7 +636,7 @@
                     if (mensaje) {
                         mensaje.style.display = 'none';
                     }
-                }, 60000);
+                }, 6000);
             {% endif %}
         </script>
 
