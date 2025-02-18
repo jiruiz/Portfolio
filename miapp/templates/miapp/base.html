@@ -384,8 +384,9 @@
         .dark-mode .formularioTestimonio {
             background-color:rgb(9, 9, 9);
         }
-        
-        
+        /* Estilo inicial para ocultar el navbar */
+
+   
         
 </style>
 
@@ -677,6 +678,32 @@
 
                 lastScrollTop = scrollTop;
             });
+
+
+
+
+
+
+            // Función para mostrar el navbar cuando el mouse se mueve cerca de la parte superior
+            document.addEventListener('mousemove', function(e) {
+                const navbar = document.getElementById('navbar');
+                if (e.clientY < 50) {
+                navbar.classList.add('show');
+                } else {
+                navbar.classList.remove('show');
+                }
+            });
+            
+            // Función para mostrar el navbar cuando se toca la parte superior en pantallas táctiles
+            document.addEventListener('touchstart', function(e) {
+                const navbar = document.getElementById('navbar');
+                if (e.touches[0].clientY < 50) {
+                navbar.classList.add('show');
+                } else {
+                navbar.classList.remove('show');
+                }
+            });
+  
 
         </script>
         <!-- Font Awesome for social icons and mode toggle -->

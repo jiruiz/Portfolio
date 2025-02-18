@@ -123,13 +123,8 @@
             background-repeat: no-repeat;
             min-height: 100vh;
         }
-        body.light-mode #habilidades {
-            background-image: url('/static/miapp/habilidades.jpg'); /* Ruta de tu imagen */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-        }
+       
+        
         body.dark-mode #mifoto {
             background-image: url('/static/miapp/noche.jpg'); /* Ruta de tu imagen */
             background-size: cover;
@@ -139,15 +134,7 @@
             min-height: 100vh;
             
         }
-        body.light-mode #proyectos {
-            background-image: url('/static/miapp/proyectos.jpg'); /* Ruta de tu imagen */
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            
-        }
+        
 
 
         body.light-mode #sobre-mi,
@@ -198,6 +185,15 @@
             gap: 30px;
             padding: 30px;
         }
+
+
+
+
+        .swiper-slide #habilidades {
+            max-width: auto; /* Para que la imagen no se desborde */
+            max-height: auto; /* Ajusta la altura de la imagen */
+        }
+
     
         /* Tarjetas de proyectos */
 
@@ -338,7 +334,7 @@
             width: 100%;
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-in-out;
+            transition: all 0.1s ease-in-out;
             z-index: 1000;
         }
     
@@ -361,7 +357,7 @@
         }
         
 
-
+        
 
 
 
@@ -391,7 +387,7 @@
     </section>
 
     <!-- Sección "Sobre mí" -->
-    <section id="sobre-mi" class="section">
+    <section id="sobre-mi" class="section" style="padding-top: 100px;">
         <div class="container has-text-centered">
             <h1 class="title">Sobre mí</h1>
             <p>Hola, soy Juan Ignacio, un apasionado de la tecnología estudiante de la Universidad Nacional de la Matanza.</p>
@@ -401,28 +397,22 @@
 
     
     
- <!-- Sección "Habilidades" -->
- <section id="habilidades" class="section">
+<!-- Sección "Habilidades" -->
+<section id="habilidades" class="section" style="padding-top: 100px;">
     <div class="container">
         <h1 class="title has-text-centered">Habilidades</h1>
-        <div class="columns is-multiline">
+        <div class="columns is-multiline" id="habilidades-container">
             {% for habilidad in habilidades %}
-                <div class="column is-half">
+                <div class="column is-half habilidad-item" {% if forloop.counter > 4 %}style="display: none;"{% endif %}>
                     <p class="has-text-centered">{{ habilidad.nombre }}</p>
                     <div class="progress-container has-text-centered">
                         <progress class="progress
-                            {% if habilidad.nivel >= 90 %}
-                                is-success
-                            {% elif habilidad.nivel >= 80 %}
-                                is-primary
-                            {% elif habilidad.nivel >= 70 %}
-                                is-info
-                            {% elif habilidad.nivel >= 60 %}
-                                is-warning
-                            {% elif habilidad.nivel >= 50 %}
-                                is-link
-                            {% else %}
-                                is-danger
+                            {% if habilidad.nivel >= 90 %} is-success
+                            {% elif habilidad.nivel >= 80 %} is-primary
+                            {% elif habilidad.nivel >= 70 %} is-info
+                            {% elif habilidad.nivel >= 60 %} is-warning
+                            {% elif habilidad.nivel >= 50 %} is-link
+                            {% else %} is-danger
                             {% endif %}
                         " value="{{ habilidad.nivel }}" max="100"></progress>
                         <span class="progress-percentage">{{ habilidad.nivel }}%</span>
@@ -430,18 +420,33 @@
                 </div>
             {% endfor %}
         </div>
+
+        <!-- Botones de control -->
+        {% if habilidades|length > 4 %}
+            <div class="has-text-centered">
+                <button id="ver-mas" class="button is-primary">Ver más</button>
+                <button id="ver-menos" class="button is-danger" style="display: none; background-color: orange; color: white;">Ver menos</button>
+            </div>
+        {% endif %}
     </div>
 </section>
 
 
 
-<!-- Sección "Mis Proyectos" -->
-<section id="proyectos" class="section">
-    
+
+
+
+
+
+
+
+
+
+<section id="proyectos" class="section" >
+
     <div class="container">
         <h1 class="title has-text-centered">Mis Proyectos</h1>
-        <p style="text-align: center;">Aquí podrás encontrar mis proyectos académicos y personales.</p>
-
+        <p style="text-align: center;">Aquí podrás encontrar mis proyectos académicos y personales. Aquellos en los que me fui formando y aquellos que desarrolé con los conocimiendos adquiridos.</p>
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 {% for proyecto in proyectos %}
@@ -454,6 +459,7 @@
                             </div>
                             <div class="slide-text" style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                                 <p class="title" style="margin-bottom: 10px; text-align: center;">{{ proyecto.nombre }}</p>
+                            </br>
                                 <p class="subtitle" style="margin-bottom: 20px; text-align: center;">{{ proyecto.tecnologias }}</p>
                                 <a class="button is-link" href="{{ proyecto.enlace }}" target="_blank">Ver más</a>
                             </div>
@@ -478,7 +484,7 @@
         
         <div class="swiper">
             <h1 class="title has-text-centered">Mis Repositorios</h1>
-            <p style="text-align: center;">Aqui podras encontrar los proyectos academicos y personales que creé.</p>
+            <p style="text-align: center;">Aqui podras encontrar mis repositorios academicos y personales que creé.</p>
             <div class="swiper-wrapper" id="repos"></div>
             <div class="swiper-pagination"></div>
             
@@ -490,15 +496,13 @@
     </div>
     
 </section>
-
-
 <!-- Sección "Certificaciones" -->
 <section id="certificaciones" class="section">
     <div class="container">
         <h1 class="title has-text-centered">Certificaciones</h1>
-        <div class="columns is-multiline">
+        <div class="columns is-multiline" id="certificaciones-container">
             {% for cert in certificaciones %}
-                <div class="column is-one-third">
+                <div class="column is-one-third cert-item" {% if forloop.counter > 4 %}style="display: none;"{% endif %}>
                     <div class="card">
                         <div class="card-content has-text-centered">
                             <span class="icon is-large">
@@ -511,6 +515,14 @@
                 </div>
             {% endfor %}
         </div>
+
+        <!-- Botones de control -->
+        {% if certificaciones|length > 4 %}
+            <div class="has-text-centered">
+                <button id="ver-mas-cert" class="button is-primary">Ver más</button>
+                <button id="ver-menos-cert" class="button is-danger" style="display: none; background-color: orange; color: white;">Ver menos</button>
+            </div>
+        {% endif %}
     </div>
 </section>
 
@@ -714,6 +726,12 @@
         }
     });
     
+
+
+
+   
+    
+    
 </script>
 <!-- Script para abrir el formulario con distancia ajustada -->
 <script>
@@ -739,36 +757,195 @@
 
 
 
-
+    /*
     document.addEventListener("DOMContentLoaded", () => {
         const secciones = document.querySelectorAll("section");
         let currentIndex = 0;
         let isScrolling = false;
-        const scrollTimeout = 800; // Evita scrolls rápidos seguidos
+        const scrollTimeout = 700;
+    
+        function updateCurrentIndex() {
+            let closestIndex = 0;
+            let minDistance = Number.MAX_VALUE;
+    
+            secciones.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const distance = Math.abs(rect.top);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestIndex = index;
+                }
+            });
+    
+            currentIndex = closestIndex;
+        }
     
         function scrollToSection(index) {
             if (index >= 0 && index < secciones.length) {
                 isScrolling = true;
-                secciones[index].scrollIntoView({ behavior: "smooth", block: "center" });
-                currentIndex = index;
-                setTimeout(() => { isScrolling = false; }, scrollTimeout);
+                secciones[index].scrollIntoView({ behavior: "smooth", block: "start" });
+                setTimeout(() => { 
+                    isScrolling = false;
+                    updateCurrentIndex();
+                }, scrollTimeout);
             }
         }
     
-        document.addEventListener("wheel", (event) => {
+        function handleScroll(event) {
             if (!isScrolling) {
-                if (event.deltaY > 0 && currentIndex < secciones.length - 1) {
-                    scrollToSection(currentIndex + 1); // Scroll abajo
-                } else if (event.deltaY < 0 && currentIndex > 0) {
-                    scrollToSection(currentIndex - 1); // Scroll arriba
-                }
+                const direction = event.deltaY > 0 ? 1 : -1;
+                scrollToSection(currentIndex + direction);
             }
             event.preventDefault();
+        }
+    
+        function handleKeydown(event) {
+            if (!isScrolling) {
+                if (event.key === "ArrowDown" || event.key === "PageDown") {
+                    scrollToSection(currentIndex + 1);
+                } else if (event.key === "ArrowUp" || event.key === "PageUp") {
+                    scrollToSection(currentIndex - 1);
+                }
+            }
+        }
+    
+        document.addEventListener("scroll", () => {
+            if (!isScrolling) {
+                updateCurrentIndex();
+            }
+        });
+    
+        document.addEventListener("wheel", handleScroll, { passive: false });
+        document.addEventListener("keydown", handleKeydown);
+    });
+    */
+    
+    
+    
+    
+</script>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const verMasBtn = document.getElementById("ver-mas");
+        const verMenosBtn = document.getElementById("ver-menos");
+        const habilidades = document.querySelectorAll(".habilidad-item");
+        const siguienteSeccion = document.querySelector("#proyectos"); // Sección siguiente, en este caso "Proyectos"
+        let visibleCount = 4;
+    
+        verMenosBtn.style.backgroundColor = "orange";  // Cambia el color de fondo a naranja
+    
+        verMasBtn.addEventListener("click", function () {
+            let newVisibleCount = visibleCount + 4;
+    
+            habilidades.forEach((habilidad, index) => {
+                if (index < newVisibleCount) {
+                    habilidad.style.display = "block";  // Mostrar habilidades
+                }
+            });
+    
+            visibleCount = newVisibleCount;
+            verMenosBtn.style.display = "inline-block";  // Mostrar el botón "Ver menos"
+    
+            // Desplazar la siguiente sección
+            siguienteSeccion.style.marginTop = "300px"; // Ajusta el valor de la distancia según sea necesario
+    
+            if (visibleCount >= habilidades.length) {
+                verMasBtn.style.display = "none";  // Ocultar el botón "Ver más" cuando no haya más habilidades
+            }
+        });
+    
+        verMenosBtn.addEventListener("click", function () {
+            let newVisibleCount = visibleCount - 4;
+    
+            habilidades.forEach((habilidad, index) => {
+                if (index >= newVisibleCount) {
+                    habilidad.style.display = "none";  // Ocultar habilidades
+                }
+            });
+    
+            visibleCount = newVisibleCount;
+            verMasBtn.style.display = "inline-block";  // Mostrar el botón "Ver más"
+    
+            // Restablecer el margen
+            siguienteSeccion.style.marginTop = "50px"; // Restablecer el margen cuando se haga clic en "Ver menos"
+    
+            if (visibleCount <= 4) {
+                verMenosBtn.style.display = "none";  // Ocultar el botón "Ver menos" cuando no haya habilidades visibles
+            }
         });
     });
     
     
+
+
+
+
+
+
+
+
+
+
+    
+
+    //ver mas y menos de certificaciones
+    document.addEventListener("DOMContentLoaded", function () {
+        const verMasBtn = document.getElementById("ver-mas-cert");
+        const verMenosBtn = document.getElementById("ver-menos-cert");
+        const certificaciones = document.querySelectorAll(".cert-item");
+        const siguienteSeccion = document.querySelector("#testimonios"); // Sección siguiente, en este caso "Testimonios"
+        let visibleCount = 4;
+    
+        verMasBtn.addEventListener("click", function () {
+            let newVisibleCount = visibleCount + 4;
+    
+            certificaciones.forEach((cert, index) => {
+                if (index < newVisibleCount) {
+                    cert.style.display = "block";
+                }
+            });
+    
+            visibleCount = newVisibleCount;
+            verMenosBtn.style.display = "inline-block";
+    
+            // Desplazar la siguiente sección
+            siguienteSeccion.style.marginTop = "500px"; // Ajusta el valor de la distancia según sea necesario
+    
+            if (visibleCount >= certificaciones.length) {
+                verMasBtn.style.display = "none";
+            }
+        });
+    
+        verMenosBtn.addEventListener("click", function () {
+            let newVisibleCount = visibleCount - 4;
+    
+            certificaciones.forEach((cert, index) => {
+                if (index >= newVisibleCount) {
+                    cert.style.display = "none";
+                }
+            });
+    
+            visibleCount = newVisibleCount;
+            verMasBtn.style.display = "inline-block";
+    
+            // Restablecer el margen
+            siguienteSeccion.style.marginTop = "30px"; // Restablecer el margen cuando se haga clic en "Ver menos"
+    
+            if (visibleCount <= 4) {
+                verMenosBtn.style.display = "none";
+            }
+        });
+    });
+    
 </script>
+
+
+
+
+
 
 </html>
 
