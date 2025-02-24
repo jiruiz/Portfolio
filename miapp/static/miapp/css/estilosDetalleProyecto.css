@@ -1,0 +1,52 @@
+/* static/css/detalle_proyecto.css */
+
+/* Estilo general de la sección del detalle */
+#detalle-proyecto {
+    padding: 40px 0;
+}
+
+#detalle-proyecto .title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#detalle-proyecto .subtitle {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#detalle-proyecto .content {
+    font-size: 1.125rem;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Estilo para la imagen del proyecto */
+.project-image {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.project-image img {
+    border-radius: 8px;
+}
+
+/* Estilo del enlace al proyecto */
+#detalle-proyecto .button.is-link {
+    margin-top: 20px;
+    font-size: 1.125rem;
+    padding: 12px 20px;
+    border-radius: 5px;
+    background-color: #3273dc;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#detalle-proyecto .button.is-link:hover {
+    background-color: #2768b0;
+}
+.dark-mode .formularioTestimonio {
+    background-color:rgb(9, 9, 9);
+}

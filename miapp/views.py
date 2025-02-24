@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Proyecto, MensajeContacto, Habilidad,Certificacion,Testimonio
+from .models import Proyecto, MensajeContacto, Habilidad,Certificacion,Testimonio,ImagenProyecto
 from .forms import ContactForm, ProyectoForm, HabilidadForm,CertificacionForm,TestimonioForm
+from django.shortcuts import render, get_object_or_404
 
 
 def portfolio(request):
@@ -98,3 +99,10 @@ def agregar_certificacion(request):
         form = CertificacionForm()
 
     return render(request, "miapp/agregar_certificacion.html", {"form": form})
+
+
+def proyecto_detalle(request, pk):
+    proyecto = get_object_or_404(Proyecto, id=pk)
+    imagenes = ImagenProyecto.objects.filter(proyecto=proyecto)
+    print(f"Se encontraron {len(imagenes)} imágenes.")  # Verifica en el log
+    return render(request, 'miapp/proyecto_detalle.html', {'proyecto': proyecto, 'imagenes': imagenes})

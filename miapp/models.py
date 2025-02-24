@@ -1,16 +1,24 @@
 from django.db import models
 
 
-class Proyecto(models.Model):
-  nombre = models.CharField(max_length=200)
-  descripcion = models.TextField()
-  tecnologias = models.CharField(max_length=200)
-  imagen = models.ImageField(upload_to='proyectos/', null=True, blank=True)
-  enlace = models.URLField(max_length=200, null=True,
-                           blank=True)  # Agrega el campo enlace
+from django.db import models
 
-  def __str__(self):
-    return self.nombre
+class Proyecto(models.Model):
+    nombre = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    tecnologias = models.CharField(max_length=200)
+    imagen = models.ImageField(upload_to='proyectos/', null=True, blank=True)  # Imagen principal (opcional)
+    enlace = models.URLField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.nombre
+
+class ImagenProyecto(models.Model):
+    proyecto = models.ForeignKey(Proyecto, related_name='imagenes', on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='proyectos/')
+
+    def __str__(self):
+        return f"Imagen de {self.proyecto.nombre}"
 
 
 class MensajeContacto(models.Model):

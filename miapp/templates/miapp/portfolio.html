@@ -132,7 +132,7 @@
 
         body.light-mode #sobre-mi,
         body.light-mode #habilidades,
-        body.dark-mode #mifoto {
+       {
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -293,6 +293,9 @@
             border-color: #4dabf7;
             color: rgb(255, 255, 255);
         }
+        .dark-mode .label {
+            color: rgb(255, 255, 255);
+        }
     
         .dark-mode .repo-link:hover {
             background: #4dabf7;
@@ -349,8 +352,15 @@
             padding: 5px;
         }
         
-
         
+                /* Cambiar la fuente de toda la página */
+        body {
+            font-family: 'Consolas', 'Lucida Console', monospace;
+            margin: 0; /* Elimina márgenes por defecto */
+            padding: 0; /* Elimina el padding por defecto */
+            box-sizing: border-box; /* Asegura que el padding y el borde no afecten al tamaño de los elementos */
+        }
+
 
 
 
@@ -465,7 +475,7 @@
                                 <p class="title" style="margin-bottom: 10px; text-align: center;">{{ proyecto.nombre }}</p>
                             </br>
                                 <p class="subtitle" style="margin-bottom: 20px; text-align: center;">{{ proyecto.tecnologias }}</p>
-                                <a class="button is-link" href="{{ proyecto.enlace }}" target="_blank">Ver más</a>
+                                <a class="button is-link" href="{% url 'proyecto_detalle' proyecto.pk %}" >Ver más</a>
                             </div>
                         </div>
                     </div>
@@ -884,7 +894,37 @@
         });
     });
     
-    
+    const text = "Bienvenido a mi sitio web personal.";
+    let index = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+        const element = document.getElementById("typing-effect");
+
+        if (!isDeleting) {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeEffect, 100);
+            } else {
+                isDeleting = true;
+                setTimeout(typeEffect, 3000); // Espera 3 segundos antes de borrar
+            }
+        } else {
+            if (index > 0) {
+                element.innerHTML = text.substring(0, index - 1);
+                index--;
+                setTimeout(typeEffect, 50);
+            } else {
+                isDeleting = false;
+                setTimeout(typeEffect, 500); // Espera un poco antes de volver a escribir
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", typeEffect);
+
+
 
 
 

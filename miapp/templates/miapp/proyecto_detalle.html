@@ -1,0 +1,169 @@
+{% extends 'miapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section id="detalle-proyecto" class="section py-5">
+    <div class="container">
+        <!-- Título del proyecto -->
+        <h1 class="title text-center mb-4">{{ proyecto.nombre }}</h1>
+    
+        <!-- Enlace "Ver en GitHub" alineado a la derecha -->
+        <a href="{{ proyecto.enlace }}" target="_blank" class="btn btn-success btn-lg mt-3"
+            style="border-radius: 30px; padding: 10px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: absolute; right: 0; top: 10px;">
+            Ver en GitHub
+        </a>
+    
+        <h4 class="subtitle text-center mb-4">Desarrollado con {{ proyecto.tecnologias }}</h4>
+    
+        <div class="row justify-content-center">
+            <!-- Contenedor para la imagen principal del proyecto -->
+            <div class="col-lg-8 col-md-8 mb-3">
+                <div class="text-center">
+                    {% if proyecto.imagen %}
+                        <img id="mainImage" src="{{ proyecto.imagen.url }}" alt="{{ proyecto.nombre }}" 
+                             class="img-fluid main-image"
+                             style="width: 100%; height: 400px; object-fit: cover; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    {% endif %}
+                </div>
+            </div>
+        
+            <!-- Contenedor para las miniaturas de las imágenes (a la derecha de la imagen principal) -->
+            <div class="col-lg-4 col-md-4 mb-3">
+                <div class="d-flex flex-column justify-content-center align-items-start">
+                    {% for imagen in imagenes %}
+                    <div class="col-12 mb-3">
+                        <div class="thumbnail-wrapper">
+                            <img src="{{ imagen.imagen.url }}" alt="{{ proyecto.nombre }}" 
+                                 class="img-fluid mini-image"
+                                 style="width: 100%; height: 100%; object-fit: cover; cursor: pointer; border-radius: 5px;"
+                                 onclick="changeMainImage(this)">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        
+
+            <!-- Descripción y enlace -->
+            <div class="col-lg-8 col-md-10 text-center mt-4">
+                <p><strong></strong> {{ proyecto.descripcion }}</p>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function changeMainImage(image) {
+        // Cambia la imagen principal al hacer clic en una miniatura
+        document.getElementById('mainImage').src = image.src;
+
+        // Quitar la clase 'selected' de todas las miniaturas
+        let miniImages = document.querySelectorAll('.mini-image');
+        miniImages.forEach(function(miniImage) {
+            miniImage.classList.remove('selected');
+        });
+
+        // Añadir la clase 'selected' a la miniatura clickeada
+        image.classList.add('selected');
+    }
+</script>
+
+<style>
+    /* Estilo para la imagen principal */
+/* Estilo para la imagen principal */
+/* Estilo para la imagen principal */
+.main-image {
+    min-width: 1000px;  /* Ancho mínimo para la imagen principal */
+    min-height: 450px; /* Altura mínima para la imagen principal */
+    max-width: 1000px;
+    max-height: 450px;  /* Tamaño máximo para la imagen principal */
+       /* La imagen se ajusta al 100% del ancho disponible, pero no excede el max-width */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.3s ease; /* Solo transición de la sombra o borde si es necesario */
+}
+
+
+
+/* Estilo para las miniaturas */
+.mini-image {
+    width: 80px; /* Establece un tamaño fijo para las miniaturas */
+    height: 80px; /* Establece un tamaño fijo para las miniaturas */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien sin distorsionarse */
+    transition: box-shadow 0.3s ease; /* Transición solo para la sombra */
+    border-radius: 5px;
+}
+
+/* Efecto hover para miniaturas (sin cambiar tamaño) */
+.mini-image:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Aumenta la sombra al pasar el ratón */
+}
+
+/* Estilo para la imagen seleccionada */
+.selected {
+    border: 3px solid #007bff; /* Borde azul cuando se selecciona la imagen */
+}
+
+/* Contenedor de las miniaturas (rectangulares) */
+.thumbnail-wrapper {
+    width: 100%;
+    height: 80px; /* Tamaño ajustado para miniaturas */
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Distribución de las miniaturas a la derecha */
+.col-lg-4, .col-md-4 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Distribución horizontal de las miniaturas */
+.row.justify-content-center {
+    display: flex;
+    flex-direction: row; /* Alinea las miniaturas horizontalmente */
+    gap: 15px; /* Espacio entre las miniaturas */
+    justify-content: center; /* Centra las miniaturas dentro de la fila */
+}
+
+/* Mejoras de estilo para el botón */
+.light-mode .btn-success {
+    background-color:#00d1b2;
+    color: rgb(255, 255, 255); /* Color verde */
+    border: none;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    
+}
+
+
+.dark-mode .btn-success {
+    background-color:rgb(77, 92, 75); /* Color verde más oscuro cuando se pasa el ratón */
+
+    padding: 5px;
+    color: rgb(255, 255, 255); /* Color verde */
+}
+
+.light-mode .btn-success:hover {
+    background-color:rgb(64, 170, 126); /* Cambio de color de fondo cuando se pasa por encima */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada en hover */
+    color: #fff; /* Mantener el color del texto blanco */
+}
+.btn-success:active {
+    transform: translateY(1px); /* Efecto al hacer clic (depresión) */
+    box-shadow: 0 4px 10px rgba(2, 190, 58, 0.1); /* Vuelve la sombra a un estado más suave */
+}
+</style>
+
+{% endblock %}
