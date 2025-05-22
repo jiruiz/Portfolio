@@ -703,52 +703,54 @@
 <!-- Configuración de Swiper -->
 
 <script>
-    // Inicializar el swiper
     const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        centeredSlides: true,   // Activa el centrado del slide activo
         slidesPerView: 3,
         spaceBetween: 30,
-        loop: true, 
-        centeredSlides: true, // Agrega esta línea
+      
         autoplay: {
-            delay: 3000, 
-            disableOnInteraction: false 
+          delay: 3000,
+          disableOnInteraction: false,
         },
-        pagination: { 
-            el: ".swiper-pagination", 
-            clickable: true 
+      
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
         },
-        navigation: { 
-            nextEl: ".swiper-button-next", 
-            prevEl: ".swiper-button-prev" 
+      
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
         },
+      
         breakpoints: {
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 50
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 40
-            },
-            640: {
-                slidesPerView: 2,
-                spaceBetween: 20
-            },
-            320: {
-                slidesPerView: 1,
-                spaceBetween: 100 // Asegura que se muestre 1 diapositiva en pantallas pequeñas
-            }
-            
-        }
-    });
-    
-
-
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 50,
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
+      });
+      
+  </script>
+  
 
    
     
     
-</script>
+
 <!-- Script para abrir el formulario con distancia ajustada -->
 <script>
     document.getElementById('abrirTestimonio').addEventListener('click', function() {
