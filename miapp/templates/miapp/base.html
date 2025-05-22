@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'miapp/css/estilosBase.css' %}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     
          
@@ -27,7 +28,7 @@
 
 
     <!-- Navbar -->
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <nav id="navbar" class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{% url 'portfolio' %}">Juani Ruiz</a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
@@ -154,6 +155,54 @@
         </script>
         <!-- Font Awesome for social icons and mode toggle -->
         <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const burger = document.querySelector('.navbar-burger');
+                const targetId = burger?.dataset.target;
+                const menu = targetId ? document.getElementById(targetId) : null;
+                const dropdowns = document.querySelectorAll('.navbar-item.has-dropdown');
+                const links = document.querySelectorAll('#navbarBasic .navbar-end a.navbar-item');
+            
+                // Función para cerrar el navbar
+                const closeNavbar = () => {
+                    burger?.classList.remove('is-active');
+                    menu?.classList.remove('is-active');
+                    dropdowns.forEach(dropdown => dropdown.classList.remove('is-active'));
+                };
+            
+                // Toggle del menú hamburguesa
+                burger?.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    menu?.classList.toggle('is-active');
+                });
+            
+                // Cerrar navbar al hacer clic en cualquier enlace (incluidos los dropdown items)
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        closeNavbar();
+                    });
+                });
+            
+                // Dropdowns independientes - abrir/cerrar dropdown al hacer clic en el título
+                dropdowns.forEach(dropdown => {
+                    dropdown.addEventListener('click', event => {
+                        // Prevenir cierre por click fuera o propagación
+                        event.stopPropagation();
+                        dropdown.classList.toggle('is-active');
+                    });
+                });
+            
+                // Cerrar navbar al hacer clic fuera
+                document.addEventListener('click', event => {
+                    if (!menu?.contains(event.target) && !burger?.contains(event.target)) {
+                        closeNavbar();
+                    }
+                });
+            });
+            </script>
+            
+            
+            
     </body>
 
 
