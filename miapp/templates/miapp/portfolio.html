@@ -131,8 +131,7 @@
 
 
         body.light-mode #sobre-mi,
-        body.light-mode #habilidades,
-       {
+        body.light-mode #habilidades{
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -402,7 +401,7 @@
             Disfruto trabajar en equipo, compartir conocimientos y afrontar nuevos desafíos  
             que me ayuden a crecer tanto profesional como personalmente.</p>
         </div>
-        <div class="container has-text-centered" style="padding-top: 100px;">
+        <div class="container has-text-centered" >
             <button onclick="window.print()" class="button is-primary mt-4">🖨 Imprimir CV</button>
 
         </div>
@@ -458,9 +457,9 @@
 
 
 
-<section id="proyectos" class="section" >
+<section id="proyectos" class="section" style="padding-top: 100px;" >
 
-    <div class="container">
+    <div class="container" >
         <h1 class="title has-text-centered">Mis Proyectos</h1>
         <p style="text-align: center;">Aquí podrás encontrar mis proyectos académicos y personales. Aquellos en los que me fui formando y aquellos que desarrolé con los conocimiendos adquiridos.</p>
         <div class="swiper-container">
@@ -494,24 +493,28 @@
 
 
 
-<section id="github" class="section">
+<section id="github" class="section" style="padding-top: 100px;">
     <div class="container">
-        
-        <div class="swiper">
-            <h1 class="title has-text-centered">Mis Repositorios</h1>
-            <p style="text-align: center;">Aqui podras encontrar mis repositorios academicos y personales que creé.</p>
-            <div class="swiper-wrapper" id="repos"></div>
-            
+      <div class="swiper">
+        <h1 class="title has-text-centered">Mis Repositorios</h1>
+        <p style="text-align: center;">
+          Aquí podrás encontrar mis repositorios académicos y personales que creé.
+        </p>
+  
+        <!-- Contenedor de los slides -->
+        <div class="swiper-wrapper" id="repos">
+          <!-- Las tarjetas/repos se insertan dinámicamente aquí -->
         </div>
-        <div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
+  
+        <!-- Botones de navegación -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
     </div>
-    
-</section>
+  </section>
+  
 <!-- Sección "Certificaciones" -->
-<section id="certificaciones" class="section">
+<section id="certificaciones" class="section" style="padding-top: 100px;">
     <div class="container">
         <h1 class="title has-text-centered">Certificaciones</h1>
         <div class="columns is-multiline" id="certificaciones-container">
@@ -543,7 +546,7 @@
 
 
 <!-- Sección "Testimonios" -->
-<section id="testimonios" class="section">
+<section id="testimonios" class="section" style="padding-top: 100px;">
     <div class="container">
         <h1 class="title has-text-centered">Testimonios</h1>
         <div class="columns is-multiline">
@@ -600,7 +603,7 @@
 
  
     <!-- Formulario de Contacto -->
-    <section id="contacto" class="section">
+    <section id="contacto" class="section" style="padding-top: 100px;">
         <div class="container">
             <h1 class="title has-text-centered">Contacto</h1>
             <form method="post" class="box">
@@ -725,23 +728,24 @@
         },
       
         breakpoints: {
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 50,
+            320: {
+              slidesPerView: 1,
+              spaceBetween: -5, // menos espacio para móviles
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
           },
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 40,
-          },
-        },
+          
       });
       
   </script>
